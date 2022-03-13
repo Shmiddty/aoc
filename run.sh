@@ -5,7 +5,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NONE='\033[0m'
 
-pad="             "
+pad="           "
 pass="${GREEN}success${NONE}"
 fail="${RED}failure${NONE}"
 
@@ -28,6 +28,7 @@ for file in $@; do
   start=$(date +%s.%N)
   diff=$(cat "$indir$name".in | $cmd "$fname" | diff "$indir$name".out -)
   time=$(echo "($(date +%s.%N) - $start)*1000" | bc) 
+  time=$(printf "%.2fms" $time)
   result=$pass
 
   cd $cwd # gotta go back... to the future?
@@ -35,6 +36,7 @@ for file in $@; do
   if [ "$diff" ]; then
     result=$fail
   fi
-  
-  printf "%s\t %s%.2fms %b\n" $fname "${pad:${#time}}" $time $result
+ 
+  # TODO: the padding for time is incorrect because it is calculated based on the unformatted time 
+  printf "%b %s %s%s\n" $result $fname "${pad:${#time}}" $time
 done
