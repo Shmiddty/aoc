@@ -42,8 +42,8 @@ risk = sum(map(lambda pt: cave[pt][2], cave))
 print(risk)
 
 tx, ty = inp[1:]
-srch = max([tx, ty]) * 11 / 7
-cave = mapcave(*inp, maxX = srch, maxY = srch)
+pad = 7#23
+cave = mapcave(*inp, maxX = tx + pad, maxY = ty + pad)
 
 neither, torch, gear = 0, 1, 2
 rocky, wet, narrow = 0, 1, 2
@@ -66,10 +66,20 @@ path = shortestpath(
             manhattan(start, end) + (te != ts) * 7
         )
 )
-
 #pcave = Grid(cave)
 #for (pt, t) in path:
 #    pcave.set(pt, 'X')
 #print(pcave)
+#print(map(nth(1), path))
+
 toolswaps = len(partition(map(nth(1), path))) - 1
+#print(toolswaps, len(path))
 print(7 * toolswaps + len(path) - 1)
+#995 is too low...
+#997 is also too low?
+#1023 is too high
+# 1000?
+# 1006? nope.
+# 1007?
+# 1008?
+# 1020?

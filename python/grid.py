@@ -80,7 +80,7 @@ def shortestpath(
         neighbors = lambda key: orthogonal(key),
         score = lambda end: lambda key: manhattan(key, end)
     ):
-    h = score(target)#pipe(ffs(*map(prtl(score), targets)), min)
+    h = score(target)
     gscore = { start: 0 }
     fscore = { start: h(start) }
     q = [start]
@@ -97,7 +97,6 @@ def shortestpath(
         cur = q.pop(0)
 
         if cur == target:
-        #if cur in targets: # this will just pick the first target it finds
             return repath(cur)
 
         for neigh in neighbors(cur):
@@ -112,7 +111,7 @@ def shortestpath(
                 fscore[nk] = scor + h(neigh)
                 if neigh not in q:
                     q.append(neigh)
-                    # slightly faster with the q properly sorted.
+                    # slightly faster with the q sorted.
                     q = sorted(q, key=pipe(key, fscore.get))
 
     return None
