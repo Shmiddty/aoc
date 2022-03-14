@@ -42,7 +42,8 @@ risk = sum(map(lambda pt: cave[pt][2], cave))
 print(risk)
 
 tx, ty = inp[1:]
-cave = mapcave(*inp, maxX = 2*tx, maxY = 2*ty)
+srch = max([tx, ty]) * 11 / 7
+cave = mapcave(*inp, maxX = srch, maxY = srch)
 
 neither, torch, gear = 0, 1, 2
 rocky, wet, narrow = 0, 1, 2
