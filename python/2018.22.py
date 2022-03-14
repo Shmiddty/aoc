@@ -1,8 +1,8 @@
 import sys
 import re
+from enum import nth, partition
 from grid import Grid, shortestpath, manhattan
 from vector import add
-
 
 class region(tuple):
     def __str__(self):
@@ -25,8 +25,8 @@ def mapcave(depth, tx, ty, maxX = None, maxY = None):
     if maxY == None: maxY = ty
     cave = Grid()
 
-    for y in range(maxX + 1):
-        for x in range(maxY + 1):
+    for y in range(maxY + 1):
+        for x in range(maxX + 1):
             pt = (x,y)
             g = geoindex(cave, tx,ty, pt)
             e = (g + depth) % 20183
@@ -38,37 +38,37 @@ inp = map(int, re.findall(r'\d+', sys.stdin.read()))
 # part 1
 cave = mapcave(*inp)
 risk = sum(map(lambda pt: cave[pt][2], cave))
-print(cave)
+#print(cave)
 print(risk)
-
 
 tx, ty = inp[1:]
 cave = mapcave(*inp, maxX = 2*tx, maxY = 2*ty)
 
-# I don't think this approach will work.
-def gearscore(cave, start, end):
-    sg, se, st = cave[start]
-    eg, ee, et = cave[end]
-
-    if st == et: return 0
-    return 3.5 # this could be anything, really
+neither, torch, gear = 0, 1, 2
+rocky, wet, narrow = 0, 1, 2
+regtools = {
+    rocky:[torch, gear],
+    wet:[neither, gear],
+    narrow:[neither, torch]
+}
 
 path = shortestpath(
-        (0,0),
-        tuple(inp[1:]),
-        neighbors = cave.neighbors,
-        isblocked = lambda pt: pt not in cave,
-        score = lambda end: lambda start: manhattan(start, end) + gearscore(cave, start, end)
+    ((0,0), torch),
+    (tuple(inp[1:]), torch),
+    neighbors = lambda (pt, _): [
+            (neighbor, tool)
+            for neighbor in cave.neighbors(pt)
+            for tool in regtools[cave[neighbor][2]]
+        ],
+    isblocked = lambda (pt, _): pt not in cave,
+    score = lambda (end, te): lambda (start, ts):(
+            manhattan(start, end) + (te != ts) * 7
+        )
 )
 
-pcave = Grid(cave)
-for pt in path:
-    pcave.set(pt, 'X')
-print(pcave)
-
-def mintime(grid, path):
-    # try all the things?
-    # can't brain right now thinky hard.
-    return 0
-
-print(mintime(cave, path))
+#pcave = Grid(cave)
+#for (pt, t) in path:
+#    pcave.set(pt, 'X')
+#print(pcave)
+toolswaps = len(partition(map(nth(1), path))) - 1
+print(7 * toolswaps + len(path) - 1)
