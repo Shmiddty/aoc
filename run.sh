@@ -21,22 +21,25 @@ for file in $@; do
   name=$(basename -s ."$ext" $file)
   fname="${name}.${ext}"
   cmd=${extcmds[$ext]}
+  ansfile="${indir}${name}.out"
 
   cwd=$PWD
   cd "${file%/*}" # we want to execute in the directory of the file 
 
-  start=$(date +%s.%N)
-  diff=$(cat "$indir$name".in | $cmd "$fname" | diff "$indir$name".out -)
-  time=$(echo "($(date +%s.%N) - $start)*1000" | bc) 
-  time=$(printf "%.2fms" $time)
-  result=$pass
-
-  cd $cwd # gotta go back... to the future?
-
-  if [ "$diff" ]; then
-    result=$fail
-  fi
+  if [ -a $ansfile ]; then # only run solutions that have answers
+    start=$(date +%s.%N)
+    diff=$(cat "$indir$name".in | $cmd "$fname" | diff "$ansfile" -)
+    time=$(echo "($(date +%s.%N) - $start)*1000" | bc) 
+    time=$(printf "%.2fms" $time)
+    result=$pass
  
-  # TODO: the padding for time is incorrect because it is calculated based on the unformatted time 
-  printf "%b %s %s%s\n" $result $fname "${pad:${#time}}" $time
+    if [ "$diff" ]; then
+      result=$fail
+    fi
+ 
+    # TODO: the padding for time is incorrect because it is calculated based on the unformatted time 
+    printf "%b %s %s%s\n" $result $fname "${pad:${#time}}" $time
+  fi
+  
+  cd $cwd # gotta go back... to the future?
 done

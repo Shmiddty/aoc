@@ -1,6 +1,5 @@
 import sys
 
-sys.path.insert(0, './lib/')
 import vector as V
 import grid as G
 import maths as M

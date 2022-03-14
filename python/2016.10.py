@@ -1,7 +1,6 @@
 import sys
 import re
 from functools import partial
-sys.path.insert(0, './lib/')
 from func import equals
 from maths import product
 

@@ -1,6 +1,5 @@
 import sys
 import re
-sys.path.insert(0, './lib/')
 from enum import permutations, unzip, chunk, flatten
 
 def isValid(sides):

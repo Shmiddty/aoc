@@ -1,6 +1,5 @@
 import sys
 
-sys.path.insert(0, './lib/')
 from enum import rotate, without
 from func import memo, repeat
 from maths import minmax

@@ -1,7 +1,5 @@
 import sys
 import re
-
-sys.path.insert(0, './lib/')
 from enum import nth, takeWhile
 from func import iterate, equals, less, pipe
 from functools import partial

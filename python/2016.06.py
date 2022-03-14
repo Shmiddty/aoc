@@ -1,5 +1,4 @@
 import sys
-sys.path.insert(0, './lib/')
 from enum import aggregate
 
 inp = [line.strip() for line in sys.stdin]
