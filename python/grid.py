@@ -55,7 +55,7 @@ class Grid(dict):
         return Grid(self.items() + other.items(), self.default)
 
     def __str__(self):
-        (x0, y0), (x1, y1) = containing(self.keys())
+        (x0, y0), (x1, y1) = self.bounds()#containing(self.keys())
         return '\n'.join([
             ''.join([
                 str(self[(x,y)]) if (x,y) in self else str(self.default)
