@@ -62,9 +62,10 @@ def buildmap(inp):
 def doors(grid, origin = (0,0)):
     class num(int):
         def __str__(self):
+            if self == -1: return ' :: '
             return int.__str__(self).center(4, ' ')
     
-    doorscore = Grid([(origin, num(0))], default="....")
+    doorscore = Grid([(origin, num(0))], default=" ## ")
     q = [origin]
 
     while len(q):
@@ -73,6 +74,7 @@ def doors(grid, origin = (0,0)):
 
         for Dir in [up, down, left, right]:
             if Dir(cur) in grid: # we have a door
+                doorscore[Dir(cur)] = num(-1)
                 room = Dir(Dir(cur))
                 roomscore = score + 1
 
