@@ -1,5 +1,5 @@
 import sys
-from grid import Grid, up, down, left, right, shortestpath, manhattan, multipath
+from grid import Grid, up, down, left, right, shortestpath, manhattan
 from func import prtl
 from enum import flatten
 
@@ -32,33 +32,7 @@ def parse(iinp):
             else:
                 acc[-1] += val
 
-
-# this is too memory intensive
-def flat(groups):
-    if all(map(lambda s: type(s) == str, groups)):
-        return groups
-
-    return reduce(lambda a, b: [A + B for B in flat(b) for A in a], groups, [''])
-
-#def buildmap(inp):
-#    themap = Grid(default='#')
-#
-#    def step((pos, grid), dirs):
-#        if type(dirs) == list:
-#
-#            return map(lambda d: step((pos, grid), d)[0], dirs)
-#
-#        for d in dirs:
-#            D = [up, down, left, right]['NSWE'.index(d)]
-#            pos = D(pos)
-#            grid.set(pos, 'O')
-#            pos = D(pos)
-#            grid.set(pos, '.')
-#
-#        return pos, grid
-#
-#    return step(((0,0), themap), inp)[1]
-
+# this is awkward and I don't like it.
 def buildmap(inp):
     themap = Grid(default = '#')
 
@@ -84,19 +58,39 @@ def buildmap(inp):
     step([(0,0)], inp)
     return themap
 
+def doors(grid, origin = (0,0)):
+    class num(int):
+        def __str__(self):
+            return int.__str__(self).center(4, ' ')
+    
+    doorscore = Grid([(origin, num(0))], default="....")
+    q = [origin]
+
+    while len(q):
+        cur = q.pop(0)
+        score = doorscore[cur]
+
+        for Dir in [up, down, left, right]:
+            if Dir(cur) in grid: # we have a door
+                room = Dir(Dir(cur))
+                roomscore = score + 1
+
+                if room not in doorscore or doorscore[room] > roomscore:
+                    doorscore[room] = num(roomscore)
+                    q.append(room)
+    
+    return doorscore
+
 inp = parse(iter(sys.stdin.read().strip()))
 themap = buildmap(inp)
 themap.set((0,0), 'X')
-#print(themap)
 
-rooms = filter(lambda pt: themap[pt] == '.', themap)
-longest = multipath(
-    (0,0),
-    rooms,
-    isblocked = lambda pt: pt not in themap,
-    neighbors = themap.neighbors,
-    score = lambda end: lambda start: 1.0 / (1 + manhattan(start, end)),
-    selector = max
-)
-print((len(longest) - 1) / 2)
-#3644
+doorscores = doors(themap)
+#print(doorscores)
+
+# Part 1
+print(max(doorscores.values())) #3644
+
+# Part 2
+print(len(filter(lambda v: v > 999, doorscores.values()))) # 8523
+
