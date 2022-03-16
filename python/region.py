@@ -1,6 +1,6 @@
 from maths import product, minmax
 from vector import add as vadd, diff
-from enum import without, flatten
+from enum import without, flatten, irange
 
 # Size of a region; Area for 2d, Volume for 3d, etc
 def size(region):
@@ -16,6 +16,22 @@ def points2d(region):
     xs, ys = zip(*region)
     return [(x, y) for x in range(*vadd(xs, (0,1))) for y in range(*vadd(ys, (0,1)))]
 
+def points3d(region):
+    xs, ys, zs = zip(*region)
+    return [
+        (x, y, z)
+        for x in range(*vadd(xs, (0,1)))
+        for y in range(*vadd(ys, (0,1)))
+        for z in range(*vadd(zs, (0,1)))
+    ]
+
+def ipoints3d(region):
+    xs, ys, zs = zip(*region)
+    for x in irange(*vadd(xs, (0,1))):
+        for y in irange(*vadd(ys, (0,1))):
+            for z in irange(*vadd(zs, (0,1))):
+                yield (x,y,z)
+
 # returns the points on the perimeter of a 2d region
 # TODO: make this dimension-agnostic
 def border2d(region):
@@ -24,7 +40,7 @@ def border2d(region):
         map(lambda x: map(lambda y: (x, y), range(*vadd(ys, (0,1)))), xs) +
         map(lambda y: map(lambda x: (x, y), range(*vadd(xs, (0,1)))), ys)
     )))
-
+    
 # Intersection of two regions
 def intersection(one, two):
     if one == None or two == None:
