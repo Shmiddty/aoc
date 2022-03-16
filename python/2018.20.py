@@ -3,6 +3,7 @@ from grid import Grid, up, down, left, right, shortestpath, manhattan
 from func import prtl
 from enum import flatten
 
+# this is very awkward and I don't like it
 def parse(iinp):
     acc = ['']
     while True:
