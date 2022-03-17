@@ -18,5 +18,5 @@
   (->> [v (println "DEBUG:" v)]
        (first)))
 
-(defn printI [v] (first [v (println v)]))
+(defn printI [v] (do (println v) v))
 

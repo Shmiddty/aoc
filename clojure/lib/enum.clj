@@ -23,3 +23,5 @@
   )
 )
 
+(defn has [v ls] (< 0 (count (filter #(= v %) ls))))
+
