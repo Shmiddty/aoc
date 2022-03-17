@@ -6,6 +6,8 @@ ppmap = prtl(prtl, map)
 def call(a): return a()
 
 def ffs(*A): return lambda *b: map(callWith(*b), A)
+juxtapose = juxt = ffs
+
 def fAb(A, b): return A(b)
 def fBa(a, B): return B(a)
 def fAB(A, B): return A(B())
