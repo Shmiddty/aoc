@@ -18,3 +18,5 @@
   (->> [v (println "DEBUG:" v)]
        (first)))
 
+(defn printI [v] (first [v (println v)]))
+
