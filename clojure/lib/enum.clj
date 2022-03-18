@@ -23,7 +23,7 @@
   )
 )
 
-(defn has [v ls] (< 0 (count (filter #(= v %) ls))))
+(defn has [v ls] (< 0 (count (filter (partial = v) ls))))
 (defn enumerate [ls] (zipmap (range (count ls)) ls))
 (defn zip [a b] (map-indexed (fn [i A] [A (nth b i)]) a))
 
