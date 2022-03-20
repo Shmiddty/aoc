@@ -39,6 +39,8 @@ for file in $@; do
  
     # TODO: the padding for time is incorrect because it is calculated based on the unformatted time 
     printf "%b %s %s%s\n" $result $fname "${pad:${#time}}" $time
+  else
+    printf "${RED}%s not found${NONE}\n" $(basename $ansfile)
   fi
   
   cd $cwd # gotta go back... to the future?
