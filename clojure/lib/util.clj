@@ -5,7 +5,7 @@
 (defn untilrepeat [f [state & prev]]
   (if (= state (first prev))
       state
-      (untilrepeat f (apply conj [(f state)] state prev))
+      (recur f (apply conj [(f state)] state prev))
       ))
 
 ; there has to be a better way to write this
