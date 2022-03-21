@@ -20,7 +20,12 @@
 
 (defn has [v ls] (< 0 (count (filter (partial = v) ls))))
 (defn enumerate [ls] (zipmap (range (count ls)) ls))
-(defn zip [a b] (map-indexed (fn [i A] [A (nth b i)]) a))
+(defn zip [a & more]
+  (map-indexed
+    (fn [i A] (apply conj [A] (map #(nth % i) more)))
+    (take (apply min (count a) (map count more)) a)
+    ))
+
 (defn slice
   ([ls start]
    (if (> 0 start)
@@ -35,7 +40,7 @@
   ([ls start end step]
    (if (> step 0)
      (take-nth step (slice ls start end))
-     ; (if (zero? step) infinitely recurs 
+     ; (if (zero? step) infinitely recurs
      (slice (reverse ls) (- (count ls) end) (- (count ls) start) (- 0 step))
      ))
   )
