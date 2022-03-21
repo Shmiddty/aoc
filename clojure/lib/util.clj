@@ -25,6 +25,14 @@
       (recur [B (mod A B) t3 (- t2 (* t3 (quot A B)))])
 )))
 
+; Kinda prefer the above form, tbh
+;(defn modinv [r m]
+;  (loop [A m B (mod r m) t2 0 t3 1]
+;    (if (zero? B)
+;      (mod t2 m)
+;      (recur B (mod A B) t3 (- t2 (* t3 (quot A B))))
+;)))
+
 ; ls = [[r0 m0] ... [rk mk]]
 ; find the value that satisfies all x = rk (mod mk)
 ; using the Chinese Remainder Theorem
