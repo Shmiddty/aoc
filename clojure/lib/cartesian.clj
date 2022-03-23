@@ -2,6 +2,13 @@
 
 (use '[enum :only (enumerate, zip)])
 
+(defn enum2d [mat] (apply conj [] (mapcat
+    (fn [[y row]] (map (fn [[x c]] [[x y] c]) (enumerate row)))
+    (enumerate mat)
+    )))
+
+(defn make-hash-map [ls] (apply merge (map (partial apply hash-map) ls)))
+
 (defn flatgrid [lines] (apply conj [] (mapcat
     (fn [[y row]] (map (fn [[x c]] [[x y] c]) (enumerate row)))
     (enumerate lines)
@@ -10,9 +17,7 @@
 (defn grid [lines]
   (->> lines
        (flatgrid)
-       ;(filter #(< 0 (second %)))
-       (map (partial apply hash-map))
-       (apply merge)
+       (make-hash-map)
        ))
 
 ; is it a bad idea to make this "eager"?
@@ -20,7 +25,7 @@
 (defn addvec [a b] (mapv (partial reduce +) (zip a b)))
 
 (defn turn
-  ([[x y]] [(* -1 y) x]) ; 90 degrees clockwise (right)
+  ([[x y]] [(- y) x]) ; 90 degrees clockwise (right)
   ([[x y] degrees]
    (if (> 0 degrees)
      (turn [x y] (+ 360 degrees))
@@ -46,6 +51,19 @@
    [(- x 1) (+ y 0)]                   [(+ x 1) (+ y 0)]
    [(- x 1) (+ y 1)] [(+ x 0) (+ y 1)] [(+ x 1) (+ y 1)]
    ])))
+
+; all adjacent points for all dimensions
+; this includes diagonals and the original point
+(def zone
+  (memoize
+    (fn [[d & ds]]
+      (if (empty? ds)
+        [[(- d 1)] [d] [(+ d 1)]]
+        (mapcat
+          (fn [DS] (map #(concat % DS) (zone [d])))
+          (zone ds)
+          )
+        ))))
 
 ; https://stackoverflow.com/a/21756221
 (defn abs [n] (max n (- n)))
