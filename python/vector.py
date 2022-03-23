@@ -8,8 +8,8 @@ class vec:
     def __init__(self, *dims): self._vec = dims
     def __str__(self): return "(%s)"%','.join(map(str,self._vec))
     def __repr__(self): return "vec%s"%str(self)
- 
-    def __eq__(self, other): 
+
+    def __eq__(self, other):
         if type(self) != type(other): return False
 
         return self._vec == other._vec
@@ -19,7 +19,7 @@ class vec:
 
     def __add__(self, other):
         return vec(*add(self._vec, other._vec))
-   
+
     def __sub__(self, other):
         return vec(*diff(self._vec, other._vec))
 
@@ -29,9 +29,9 @@ class vec:
     def __mul__(self, other):
         if isnumber(other):
             return vec(*scale(other, self._vec))
-        
+
         return dot(self._vec, other._vec)
-    
+
     def __rdiv__(self, other):
         if isnumber(other):
             return vec(*scale(other, inverse(self._vec)))
@@ -50,10 +50,10 @@ class vec:
         return self # ???
 
     def __and__(self, other): return self # ???
-    def __or__(self, other): return self  # ??? 
+    def __or__(self, other): return self  # ???
     def __xor__(self, other):
         if self == other: return 0 # if they are parallel, really
- 
+
         # is the dot product of two vectors the magnitude of their bivector?
         return self #??? this should be a kvec?
 
