@@ -1,13 +1,11 @@
 (ns cartesian)
 
-(use '[enum :only (enumerate, zip)])
+(use '[enum :only (enumerate, zip, make-hash-map)])
 
 (defn enum2d [mat] (apply conj [] (mapcat
     (fn [[y row]] (map (fn [[x c]] [[x y] c]) (enumerate row)))
     (enumerate mat)
     )))
-
-(defn make-hash-map [ls] (apply merge (map (partial apply hash-map) ls)))
 
 (defn flatgrid [lines] (apply conj [] (mapcat
     (fn [[y row]] (map (fn [[x c]] [[x y] c]) (enumerate row)))

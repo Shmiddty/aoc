@@ -1,8 +1,15 @@
 (ns enum)
 
+(defn make-hash-map [ls] (apply merge (map (partial apply hash-map) ls)))
+
 ; flatten by one level
 (defn flat [ls]
   (apply conj [] ls))
+
+; what's this called?
+; [a + b for a in A for b in B]
+;(defn krisskrosswillmakeyoujumpjump [A B] (mapcat (fn [a] (map (partial conj [a]) B)) A))
+(defn cross [A B] (mapcat (fn [a] (map #(concat [a] [%]) B)) A))
 
 (defn pairs [[head & tail]]
   (if (empty? tail)
