@@ -26,10 +26,16 @@
     ))
 
 (defn has [v ls] (< 0 (count (filter (partial = v) ls))))
-(defn enumerate [ls] (zipmap (range (count ls)) ls))
+
+;(defn enumerate [ls] (zipmap (range (count ls)) ls))
+
+; Found a more elegant implementation of enumerate
+;https://stackoverflow.com/a/67029691
+(defn enumerate [ls] (map-indexed vector ls))
+
 (defn zip [a & more]
   (map-indexed
-    (fn [i A] (apply conj [A] (map #(nth % i) more)))
+    (fn [i A] (concat [A] (map #(nth % i) more)))
     (take (apply min (count a) (map count more)) a)
     ))
 

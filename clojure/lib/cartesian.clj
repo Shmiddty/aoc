@@ -30,6 +30,9 @@
      (nth (iterate turn [x y]) (/ degrees 90))
      ))
   )
+(defn mirror
+  ([[x y]] [x (- y)])
+  )
 
 (defn move
   ([pos dir] (addvec pos dir))
