@@ -5,22 +5,25 @@
 (use '[enum :only (make-hash-map)])
 
 (def inp
-  (->> (yummy)
-       (map #(split % #"contains"))
-       (map (partial map #(set (re-seq #"\w+" %))))
-       ))
+  (->>
+    (yummy)
+    (map #(split % #"contains"))
+    (map (partial map #(set (re-seq #"\w+" %))))
+    ))
 
 (def ingredients
-  (->> inp
-       (map first)
-       (reduce union)
-       ))
+  (->>
+    inp
+    (map first)
+    (reduce union)
+    ))
 
 (def allergens
-  (->> inp
-       (map second)
-       (reduce union)
-       ))
+  (->>
+    inp
+    (map second)
+    (reduce union)
+    ))
 
 (def ingredigens
   (map
@@ -29,23 +32,27 @@
     ))
 
 (def nonnergens
-  (->> ingredigens
+  (->>
+    ingredigens
+    (map second)
+    (apply difference ingredients)
+    ))
+
+(->>
+  nonnergens
+  (map (fn [i] (filter #(contains? (first %) i) inp)))
+  (map count)
+  (reduce +)
+  (println)
+  )
+
+(->>
+  ingredigens
+  (make-hash-map)
+  (deduce)
+  (sort-by first)
   (map second)
-  (apply difference ingredients)
-  ))
+  (join #",")
+  (println)
+  )
 
-(->> nonnergens
-     (map (fn [i] (filter #(contains? (first %) i) inp)))
-     (map count)
-     (reduce +)
-     (println)
-     )
-
-(->> ingredigens
-     (make-hash-map)
-     (deduce)
-     (sort-by first)
-     (map second)
-     (join #",")
-     (println)
-     )
