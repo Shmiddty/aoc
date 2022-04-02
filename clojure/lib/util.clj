@@ -1,6 +1,6 @@
 (ns util)
 
-(use '[enum :only (zip)])
+(use '[enum :only (zip, enumerate)])
 
 (defn untilrepeat [f [state & prev]]
   (if (= state (first prev))
@@ -45,4 +45,20 @@
          ))
    (reduce * (map second ls))
   ))
+
+; given a collection of [[key0 [val0 .. valN]] ...]
+; attempt to deduce which key pairs with which value
+(defn deduce [poss]
+  (loop [solved [] remaining (sort-by #(count (second %)) poss)]
+    (if (empty? remaining)
+      solved
+      (->> (rest remaining)
+           (map (partial apply (fargo
+             identity
+             (partial filter #(not= % (first (second (first remaining)))))
+             )))
+           (sort-by #(count (second %)))
+           (recur (concat solved [(apply (fargo identity first) (first remaining))]))
+           ))
+    ))
 
