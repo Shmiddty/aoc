@@ -30,6 +30,8 @@
      (nth (iterate turn [x y]) (/ degrees 90))
      ))
   )
+
+; mirror along xy
 (defn mirror
   ([[x y]] [x (- y)])
   )

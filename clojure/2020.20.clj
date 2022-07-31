@@ -28,8 +28,8 @@
 ;  1
 (defn matches [a b]
   (cond
-    (= (last a) (first b)) [0 -1] ; a is above b
-    (= (first a) (last b)) [0  1] ; a is below b
+    (= (last a) (first b)) [0  1] ; a is above b
+    (= (first a) (last b)) [0 -1] ; a is below b
     (= (last (apply zip a)) (first (apply zip b))) [ 1 0] ; a is left of b
     (= (first (apply zip a)) (last (apply zip b))) [-1 0] ; a is right of b
     :else false
@@ -66,14 +66,6 @@
                 (map #(vector idB (matches (first tilesA) %) %) tilesB)
                 ))
             )
-          ; due to the way cross works, I think it's safe to assume that
-          ; all tile-matches for a given tile will be in the same orientation.
-          ; let's find out
-          ; further, I presume that the first item in tilesA will determine the orientation of the matches
-          ; womp womp. this is incorrect
-          ; however, I realized that instead of doing using cross,
-          ; I could just find the match with the first of tilesA, which is a lot less work anyways.
-          ; this process is somewhat tedious, to be honest.
           (filter #(not= idA (first %)) inp)
           )
         )
@@ -97,15 +89,21 @@
 (defn ptvariants [pt]
   (concat
     (take 4 (iterate turn pt))
-    (take 4 (iterate turn (mirror pt)))
+    (take 4 (iterate turn (mirror pt))) ; this is wrong?
     ))
 
 ; this part appears to be wrong
-; TODO: fix this
+; DONE: fix this
+; Some tiles are flipped. why? 
+; my mirror function only mirrored the direction vector over the x axis,
+; so if the vector were, for example, [1 0], it would remain unchanged.
+; Thus the ptvariants function would have values repeated for some direction vectors.
+; still not quite right.
 (defn place [tileA [posA tileBA] rposB tileB]
   (->> (zip (variants tileBA) (ptvariants rposB) (variants tileB))
        (drop-while #(not= tileA (first %)))
        (first)
+       (#(do (printgrid tileA) (println (second %)) (printgrid (nth % 2)) (println "\n") %))
        ;(#(do
        ;    (printgrid (first %)) (println "")
        ;    ;(printgrid (nth % 2)) (println "")
@@ -144,6 +142,7 @@
 (defn restitch [solved]
   (->> solved
        (sort-by #(ptkey (first %)))
+       ;(#(do (mapv (fn [f] (do (println (first f)) (printgrid (second f)))) %) %))
        (map second)
        (map unwrap)
        (erect)
@@ -194,9 +193,10 @@
     ))
 
 (->> matching
+     (dbg)
      (solve)
      (restitch)
-     (#(do (printgrid %) %))
+     ;(#(do (printgrid %) %))
      ((juxt
        #(count (filter (partial = \#) (apply concat %)))
        #(* (count (first nessies)) (count (dbg (findnessies %))))
@@ -204,4 +204,5 @@
      (apply -)
      (println)
      )
+; 1917 too high
 
