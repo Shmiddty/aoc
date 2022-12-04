@@ -27,18 +27,20 @@ func Play(A int, B int) int {
   return bint((A + 1)%3 == B) * -1 + bint(A == (B + 1)%3)
 }
 
+func Parse (s string) (int, int) {
+  parts := strings.Split(s, " ")
+  elf := strings.Index("ABC", parts[0])
+  you := strings.Index("XYZ", parts[1])
+  return elf, you
+}
+
 func main() {
   rounds := util.Lines(util.Args())
   tot := 0
 
-  for i, v := range rounds {
-    if i == len(rounds) - 1 {
-      break
-    }
-    parts := strings.Split(v, " ")
-    elf := strings.Index("ABC", parts[0])
-    you := strings.Index("XYZ", parts[1])
-    result := Play(elf, you)
+  for _, v := range rounds {
+    elf, you := Parse(v)
+    result := Play(you, elf)
     tot += result * 3 + 3 + you + 1
   }
   println(tot)

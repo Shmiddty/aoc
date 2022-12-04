@@ -25,7 +25,10 @@ func Minted(elves [][]int) []int {
 func main() {
   elves := prep(util.Args())
   dinner := Minted(elves)
-  sort.Sort(sort.Reverse(dinner))
-  cals = sort[0]
+  dinnerSlice := dinner[:]
+  sort.Sort(sort.Reverse(sort.IntSlice(dinnerSlice)))
+  cals := dinner[0]
   println(cals)
+  pals := dinner[0:2]
+  println(util.Sum(&pals))
 }

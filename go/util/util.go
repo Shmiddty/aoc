@@ -8,7 +8,7 @@ import (
 )
 
 func Args() (string) {
-  return Slurp(os.Stdin)
+  return strings.Trim(Slurp(os.Stdin), "\n")
 }
 
 // Contents returns the file's contents as a string.
