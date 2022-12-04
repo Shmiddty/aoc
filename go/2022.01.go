@@ -6,18 +6,17 @@ import (
 
 func prep(inp string) [][]int {
   elves := util.Blocks(inp)
-  var out [][]int = make([][]int, len(elves))
-  for e := 0; e < len(elves); e++ {
-    food := util.Lines(elves[e])
-    out[e] = util.Minty(food)
+  var out [][]int
+  for _, elf := range elves {
+    out = append(out, util.Minty(util.Lines(elf)))
   }
   return out
 }
 
 func Minted(elves [][]int) []int {
-  var out []int = make([]int, len(elves))
-  for i := 0; i < len(elves); i++ {
-    out[i] = util.Sum(&elves[i])
+  var out []int
+  for _, elf := range elves {
+    out = append(out, util.Sum(&elf))
   }
   return out
 }
