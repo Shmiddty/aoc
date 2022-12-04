@@ -2,6 +2,7 @@ package main
 
 import (
   "agoc/util"
+  "sort"
 )
 
 func prep(inp string) [][]int {
@@ -24,6 +25,7 @@ func Minted(elves [][]int) []int {
 func main() {
   elves := prep(util.Args())
   dinner := Minted(elves)
-  cals, _ := util.Max(dinner...)
+  sort.Sort(sort.Reverse(dinner))
+  cals = sort[0]
   println(cals)
 }
