@@ -16,15 +16,8 @@ import (
 //  return out
 //}
 
-func bint (b bool) int {
-  if b {
-    return 1
-  }
-  return 0
-}
-
 func Play(A int, B int) int {
-  return bint((A + 1)%3 == B) * -1 + bint(A == (B + 1)%3)
+  return util.Bint((A + 1)%3 == B) * -1 + util.Bint(A == (B + 1)%3)
 }
 
 func Parse (s string) (int, int) {
@@ -35,7 +28,7 @@ func Parse (s string) (int, int) {
 }
 
 func Play2(A int, B int) int {
-  return (A + bint(B == 0) * 2 + bint(B == 2)) % 3
+  return (A + util.Bint(B == 0) * 2 + util.Bint(B == 2)) % 3
 }
 
 func main() {

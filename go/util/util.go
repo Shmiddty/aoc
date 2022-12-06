@@ -7,6 +7,13 @@ import (
   "strconv"
 )
 
+func Bint (b bool) int {
+  if b {
+    return 1
+  }
+  return 0
+}
+
 func Args() (string) {
   return strings.Trim(Slurp(os.Stdin), "\n")
 }
@@ -48,6 +55,10 @@ func Slurp(r io.Reader) (string) {
     }
   }
   return string(result)
+}
+
+func ArgLines() []string {
+  return Lines(Args())
 }
 
 func Lines(s string) []string {
