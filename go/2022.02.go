@@ -34,14 +34,26 @@ func Parse (s string) (int, int) {
   return elf, you
 }
 
+func Play2(A int, B int) int {
+  return (A + bint(B == 0) * 2 + bint(B == 2)) % 3
+}
+
 func main() {
   rounds := util.Lines(util.Args())
-  tot := 0
 
+  tot := 0
   for _, v := range rounds {
     elf, you := Parse(v)
     result := Play(you, elf)
     tot += result * 3 + 3 + you + 1
+  }
+  println(tot)
+
+  tot = 0
+  for _, v := range rounds {
+    elf, result := Parse(v)
+    you := Play2(elf, result)
+    tot += (result - 1) * 3 + 3 + you + 1
   }
   println(tot)
 }

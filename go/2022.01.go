@@ -29,6 +29,6 @@ func main() {
   sort.Sort(sort.Reverse(sort.IntSlice(dinnerSlice)))
   cals := dinner[0]
   println(cals)
-  pals := dinner[0:2]
+  pals := dinner[0:3]
   println(util.Sum(&pals))
 }
