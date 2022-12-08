@@ -2,44 +2,19 @@ package main
 
 import (
   "agoc/util"
+  "agoc/ds"
   "strings"
 )
 
-type Stack struct {
-  items []interface{}
-}
 
-func (s *Stack) Push(v interface{}) {
-  s.items = append(s.items, v)
-}
 
-func (s *Stack) Pop() interface{} {
-  if len(s.items) == 0 {
-    return nil
-  }
-  v := s.Peek()
-  s.items = s.items[0:len(s.items) - 1]
-  return v
-}
-
-func (s *Stack) Peek() interface{} {
-  if len(s.items) == 0 {
-    return nil
-  }
-  return s.items[len(s.items) - 1]
-}
-
-func (s *Stack) Size() int {
-  return len(s.items)
-}
-
-func ParseCrates(s string) []Stack {
+func ParseCrates(s string) []ds.Stack {
   lines := util.Lines(s)
   lns := len(lines)
   cols := lines[lns - 1]
   numCols := cols[len(cols) - 2] - 48
 
-  out := make([]Stack, numCols)
+  out := make([]ds.Stack, numCols)
 
   for i := 2; i <= lns; i++ {
     line := lines[lns - i]
@@ -71,14 +46,14 @@ func ParseInstructions(s string) (out [][]int) {
   return
 }
 
-func followInstruction(inst []int, s []Stack) {
+func followInstruction(inst []int, s []ds.Stack) {
   for i := 0; i < inst[0]; i++ {
     s[inst[2] - 1].Push(s[inst[1] - 1].Pop())
   }
 }
 
-func createMover9001(inst []int, s []Stack) {
-  t := Stack{}
+func createMover9001(inst []int, s []ds.Stack) {
+  t := ds.Stack{}
   for i := 0; i < inst[0]; i++ {
     t.Push(s[inst[1] - 1].Pop())
   }
@@ -87,7 +62,7 @@ func createMover9001(inst []int, s []Stack) {
   }
 }
 
-func tops(s []Stack) (out []interface{}) {
+func tops(s []ds.Stack) (out []interface{}) {
   for _, v := range s {
     out = append(out, v.Peek())
   }
