@@ -7,6 +7,15 @@ import (
   "strconv"
 )
 
+func Chunk (a []string, n int) [][]string {
+  out := make([][]string, len(a) / n)
+  for i, v := range a {
+    // do I need to initialize each subarray as well?
+    out[int(i / n)] = append(out[int(i / n)], v)
+  }
+  return out
+}
+
 func Bint (b bool) int {
   if b {
     return 1
