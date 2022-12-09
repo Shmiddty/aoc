@@ -5,6 +5,13 @@ import (
   "strings"
 )
 
+// it should not be difficult to write this as a generic function.
+// why do I need to specify the type of items an array holds when I'm not even handling the items themselves?
+// I thought Go was supposed to be simple and boring.
+// I can write it these ways, but apparently I can't use
+// a value of type []string for an []interface{} argument or []any argument.
+//func divvy(a []interface{}, n int) (out []interface{}) {
+//func divvy(a []any, n int) (out []any) {
 func divvy(a string, n int) (out []string) {
   for i := 0; i < len(a) - n; i++ {
     out = append(out, a[i:i+n])
