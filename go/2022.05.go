@@ -6,8 +6,6 @@ import (
   "strings"
 )
 
-
-
 func ParseCrates(s string) []ds.Stack {
   lines := util.Lines(s)
   lns := len(lines)
@@ -95,6 +93,4 @@ func main() {
     print(v.(string))
   }
   println()
-
-
 }
