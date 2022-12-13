@@ -48,6 +48,22 @@ func run(ops []Op) (out []int) {
   return
 }
 
+func display(cycles []int) {
+  c := 0
+  for y := 0; y < 6; y++ {
+    for x := 0; x < 40; x++ {
+      v := cycles[c]
+      if x >= v - 1 && x <= v + 1 {
+        print("#")
+      } else {
+        print(".")
+      }
+      c += 1
+    }
+    println()
+  }
+}
+
 func main() {
   program := ParseArgs(util.ArgLines())
   cycles := run(program)
@@ -60,4 +76,5 @@ func main() {
     220 * cycles[219]
 
   println(one)
+  display(cycles)
 }
