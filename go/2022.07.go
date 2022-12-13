@@ -97,4 +97,14 @@ func main() {
     }
   }
   println(tot)
+
+  avail := 70000000 - tree.Size()
+  min := int(^uint(0) >> 1)
+  for _, t := range ftree {
+    s := t.Size()
+    if avail + s >= 30000000 && s < min {
+      min = s
+    }
+  }
+  println(min)
 }
