@@ -76,6 +76,12 @@ func (n *Node) AddNeighbor(a *Node) {
   n.neighbors = append(n.neighbors, a)
 }
 
+func (n *Node) AddNeighbors(a []*Node) {
+  for _, N := range a {
+    n.AddNeighbor(N)
+  }
+}
+
 func (n *Node) GetNeighbors() []*Node {
   return n.neighbors
 }

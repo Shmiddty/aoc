@@ -90,6 +90,30 @@ func Minty(s []string) []int {
   return i
 }
 
+func Num(a string) int {
+  v, _ := strconv.ParseInt(a, 10, 0)
+  return int(v)
+}
+
+func Numbers(a string) (out []int) {
+  t := ""
+  for _, c := range a {
+    if c > 47 && c < 58 {
+      t += string(c)
+    } else if len(t) > 0 {
+      out = append(out, Num(t))
+      t = ""
+    } else {
+      t = ""
+    }
+  }
+  if len(t) > 0 {
+    out = append(out, Num(t))
+  }
+
+  return
+}
+
 func Sum(a *[]int) (sum int) {
     for _, v := range *a {
         sum += v
