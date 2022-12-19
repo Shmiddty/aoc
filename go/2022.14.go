@@ -75,11 +75,11 @@ func step(a *cart.Grid, bot int) bool {
 func simulate(grid *cart.Grid, dbg bool) {
   _, mx := grid.GetBounds()
   bot := mx.Y
-  if dbg { grid.Display() }
+  if dbg { grid.Display(".#O") }
   dirty := true
   for dirty {
     dirty = step(grid, bot)
-    if dbg { grid.Display() }
+    if dbg { grid.Display(".#O") }
   }
 }
 

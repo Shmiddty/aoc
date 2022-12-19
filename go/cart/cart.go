@@ -1,5 +1,11 @@
 package cart
 
+
+func abs(a int) int {
+  if a < 0 { return -a }
+  return a
+}
+
 type Vec2d struct {
   X int
   Y int
@@ -21,6 +27,11 @@ func Diff(a Vec2d, b Vec2d) Vec2d {
   return Vec2d{a.X - b.X, a.Y - b.Y}
 }
 
+func (a Vec2d) Manhattan(b Vec2d) int {
+  pt := Diff(a, b)
+  return abs(pt.X) + abs(pt.Y)
+}
+
 type Grid struct {
   Cells map[Vec2d]int
 }
@@ -38,15 +49,14 @@ func (g *Grid) GetBounds() (Vec2d, Vec2d) {
   return mn, mx
 }
 
-func (g *Grid) Display() {
+func (g *Grid) Display(key string) {
   mn, mx := g.GetBounds()
 
   for y := mn.Y; y <= mx.Y; y++ {
-    ln := ""
     for x := mn.X; x <= mx.X; x++ {
-      ln += string(".#O"[g.Cells[Vec2d{x, y}]])
+      print(string(key[g.Cells[Vec2d{x, y}]]))
     }
-    println(ln)
+    println()
   }
 }
 

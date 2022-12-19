@@ -98,7 +98,7 @@ func Num(a string) int {
 func Numbers(a string) (out []int) {
   t := ""
   for _, c := range a {
-    if c > 47 && c < 58 {
+    if c == 45 || (c > 47 && c < 58) {
       t += string(c)
     } else if len(t) > 0 {
       out = append(out, Num(t))
