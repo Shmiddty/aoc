@@ -57,6 +57,8 @@ func step(a *cart.Grid, bot int) bool {
   rgt := cart.Vec2d{1, 1}
 
   pt := cart.Vec2d{500, 0}
+  if blocked(pt) { return false }
+
   for pt.Y < bot{
     if !blocked(pt.Add(dwn)) {
       pt = pt.Add(dwn)
@@ -83,9 +85,25 @@ func simulate(grid *cart.Grid, dbg bool) {
   }
 }
 
+func addFloor(grid *cart.Grid) {
+  mn, mx := grid.GetBounds()
+  wid := mx.X - mn.X
+  y := mx.Y + 2
+  pad := 4 * wid
+  for x := mn.X - pad; x <= mx.X + pad; x++ {
+    grid.Cells[cart.Vec2d{x,y}] = 1
+  }
+}
+
+
 func main() {
   grid := makeGrid(parseInput(util.ArgLines()))
   simulate(grid, false)
   sand := grid.ByValue(2)
+  println(len(sand))
+
+  addFloor(grid)
+  simulate(grid, false)
+  sand = grid.ByValue(2)
   println(len(sand))
 }
