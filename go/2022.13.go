@@ -94,14 +94,26 @@ func compare(a *ds.Node, b *ds.Node) int {
 }
 
 func debug(n *ds.Node, depth int) {
-  pad := ""
-  for i := 0; i < depth; i++ {
-    pad += "  "
+  //pad := ""
+  //for i := 0; i < depth; i++ {
+  //  pad += "  "
+  //}
+  //println(pad, n.Value.(int))
+  v := n.Value.(int)
+  if v == -1 {
+    print("[")
+  } else {
+    print(v)
   }
-  println(pad, n.Value.(int))
   nb := n.GetNeighbors()
-  for _, N := range nb {
+  for i, N := range nb {
     debug(N, depth + 1)
+    if i < len(nb) - 1 {
+      print(",")
+    }
+  }
+  if v == -1 {
+    print("]")
   }
 }
 
@@ -109,7 +121,13 @@ func main() {
   blocks := parseInput(util.Args())
   tot := 0
   for i, block := range blocks {
-    if compare(block[0], block[1]) == 1 {
+    res := compare(block[0], block[1])
+    debug(block[0], 0)
+    println("")
+    debug(block[1], 0)
+    println()
+    println(res == 1)
+    if res == 1 {
       tot += i + 1
     }
   }

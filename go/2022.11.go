@@ -184,4 +184,7 @@ func main () {
   sort.Sort(sort.IntSlice(icnt))
   println(icnt[l-2]*icnt[l-1])
 
+  // for part 2, need to keep worry as n(mod m)
+  // which means a different simulate/inspect, or passing a param
+  // also need to store the denominator
 }
