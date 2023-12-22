@@ -1,2 +1,3 @@
 .cpcache/
 */*.pyc
+/python/__pycache__

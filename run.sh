@@ -1,4 +1,4 @@
-#/bin/bash/
+#!/bin/bash
 indir="../input/" # this could be... better.
 
 RED='\033[0;31m'
@@ -10,7 +10,7 @@ pass="${GREEN}success${NONE}"
 fail="${RED}failure${NONE}"
 
 declare -A extcmds
-extcmds["py"]="python"
+extcmds["py"]="python3"
 extcmds["clj"]="clj -M"
 extcmds["js"]="node"
 extcmds["mjs"]="node"

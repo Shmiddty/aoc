@@ -1,0 +1,1 @@
+readAll <- readLines(file("stdin"))
