@@ -1,3 +1,5 @@
+from functools import reduce
+
 def product(enum):
     return reduce(lambda p, v: p * v, enum, 1)
 

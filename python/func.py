@@ -1,4 +1,4 @@
-from functools import partial
+from functools import partial, reduce
 
 prtl = partial
 ppmap = prtl(prtl, map)
@@ -65,7 +65,7 @@ def iterate(fn, v):
         v = fn(v)
 
 def iterN(fn, n):
-    return lambda v: map(lambda (_, b): b, zip(range(n + 1), iterate(fn, v)))
+    return lambda v: map(lambda _, b: b, zip(range(n + 1), iterate(fn, v)))
 
 # basically pipe, but the values are accumulated
 def over(*fns):
